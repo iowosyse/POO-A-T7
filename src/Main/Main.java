@@ -70,6 +70,7 @@ public class Main {
                         }
                         case 0 -> { //vuelve
                             System.out.println("Going back...");
+                            opt = -1;
                         }
                     }
                 } case 2 -> { //para iniciar sesion y depositar y retirar libremente de tu cuenta
