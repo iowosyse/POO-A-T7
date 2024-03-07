@@ -2,10 +2,10 @@ package Main;
 
 import java.util.*;
 import Repositories.ClientRepositories;
+import Auxiliares.AuxiliarMethods;
 
 public class Main {
     static Scanner sc = new Scanner(System.in);
-    static String aux;
 
     public static void main(String[] args) {
         int opt = -1, aux;
@@ -27,32 +27,37 @@ public class Main {
                     System.out.print(">> ");
                     opt = sc.nextInt();
                     sc.nextLine();
-
-                    Client menso = new Client();
                     switch (opt) {
                         case 1 -> {//solo crea cliente
-                            test = createCLient();
+                            test = AuxiliarMethods.createCLient();
                         }
                         case 2 -> { //crea cliente y una cuenta de banco
-                            test = createCLient();
-                            ciber = createAccount();
+                            test = AuxiliarMethods.createCLient();
+                            ciber = AuxiliarMethods.createAccount();
+                            test.getAccounts().add(ciber);
                         }
                         case 3 -> { //crea cliente y cuenta y da opcion a hacer el primer deposito
-                            test = createCLient();
-                            ciber = createAccount();
+                            test = AuxiliarMethods.createCLient();
+                            ciber = AuxiliarMethods.createAccount();
+
+                            if (ciber.isValidAcc()) {
+                                test.getAccounts().add(ciber);
+
+                                System.out.print("Initial balance: $");
+                                test.showBalance(0);
+
+                                System.out.print("How much do you want to deposit? ");
+                                aux = sc.nextInt();
+                                sc.nextLine();
+                                test.getAccounts().getFirst().deposit(aux); //no se si se pueda añadir directamente al ciber ;-;
+
+                                System.out.print("New balance: $");
+                                test.showBalance(0);
+                            } else {
+                                test.getInvalidAccs().add(ciber);
+                            }
+
                             test.getAccounts().add(ciber);
-
-                            System.out.print("Initial balance: $");
-                            test.showBalance(0);
-
-                            System.out.print("How much do you want to deposit? ");
-                            aux = sc.nextInt();
-                            sc.nextLine();
-                            test.getAccounts().get(0).deposit(aux); //no se si se pueda añadir directamente al ciber ;-;
-
-                            System.out.print("New balance: $");
-                            test.showBalance(0);
-
                         }
                         case 4 -> { //muestra los clientes que ya existen
                             int i = 1;
@@ -82,7 +87,8 @@ public class Main {
 
                         byClient(theClient);
                     }
-                }
+                } case 0 -> System.out.println("Going back...");
+                default -> System.out.println("Not an option");
             }
         }
 
@@ -96,12 +102,11 @@ public class Main {
         BankAccount theAccount;
 
         do {
-            System.out.println("1. Deposit.\n2. Withdraw\n0. Go back.");
+            System.out.println("1. Deposit.\n2. Withdraw\n3. Manage accounts\n0. Go back.");
             System.out.print("What do you want to do? ");
 
             option = sc.nextInt();
             sc.nextLine();
-
 
             switch (option) {
                 case 1 -> {
@@ -111,10 +116,14 @@ public class Main {
                     sc.nextLine();
                     theAccount = theCLient.getAccounts().get(auxx - 1);
 
-                    System.out.print("How much do you want to deposit? ");
-                    aux = sc.nextDouble();
+                    if (theAccount.isValidAcc()) {
+                        System.out.print("How much do you want to deposit? ");
+                        aux = sc.nextDouble();
 
-                    theAccount.deposit(aux);
+                        theAccount.deposit(aux);
+                    } else {
+                        System.out.println("Cannot deposit to invalid accounts, must change its type before.");
+                    }
                 } case 2 -> {
                     theCLient.showAccounts();
                     System.out.print("To which account? ");
@@ -126,43 +135,31 @@ public class Main {
                     aux = sc.nextDouble();
 
                     theAccount.withdraw(aux);
-                }
+                } case 3 -> {
+                    BankAccount toChange;
+
+                    if (theCLient.getInvalidAccs().isEmpty()) {
+                        System.out.println("Theres no accounts to manage.");
+                    } else {
+                        AuxiliarMethods.showInvalidAccs(theCLient);
+                        System.out.print("What account do you want to manage? ");
+                        auxx = sc.nextInt();
+                        sc.nextLine();
+
+                        toChange = theCLient.getInvalidAccs().get(auxx - 1);
+
+                        System.out.print("Change the account type: ");
+                        char type = sc.nextLine().charAt(0);
+                        toChange.setAccType(type);
+
+                        if (type == 'a' || type == 'b' || type == 'c') {
+                            toChange.setValidAcc(true);
+                            theCLient.getInvalidAccs().remove(toChange);
+                        }
+                    }
+                } case 0 -> System.out.println("Going back...");
+                default -> System.out.println("Not an option.");
             }
         } while (option != 0);
-
-    }
-
-    /**Crea cuentas en fa*/
-    public static BankAccount createAccount() {
-        char type;
-        BankAccount accForMenso = new BankAccount();
-
-        System.out.println("What type of account do you want?");
-        System.out.println("A type: MAX $50 000\nB type: MAX $100 000\nC type: unlimited");
-        System.out.print(">> ");
-        aux = sc.nextLine();
-        aux = aux.toLowerCase();
-        type = aux.charAt(0);
-        
-        accForMenso.setAccType(type);
-
-        return accForMenso;
-    }
-
-    /**Crea clientes en fa*/
-    public static Client createCLient() {
-        Client menso = new Client();
-
-        System.out.print("Whats your name? ");
-        aux = sc.nextLine();
-        menso.setName(aux);
-
-        System.out.print("Whats your last name? ");
-        aux = sc.nextLine();
-        menso.setLastName(aux);
-
-        ClientRepositories.clients.add(menso); //para mostrar los clientes luego
-
-        return menso;
     }
 }

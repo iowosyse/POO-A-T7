@@ -5,6 +5,15 @@ public class BankAccount {
     private int accNumber;
     private char accType;
     private double maxBalance;
+    private boolean validAcc = true;
+
+    public boolean isValidAcc() {
+        return validAcc;
+    }
+
+    public void setValidAcc(boolean validAcc) {
+        this.validAcc = validAcc;
+    }
 
     public double getBalance() {
         return balance;
@@ -30,9 +39,9 @@ public class BankAccount {
             case 'b' -> maxBalance = 100000;
             case 'c' -> maxBalance = Double.MAX_VALUE;
             default -> {
-                System.out.println("Invalid option, creating A type account");
-                this.accType = 'a';
-                maxBalance = 50000;
+                System.out.println("Could not create or modify that account type");
+                validAcc = false;
+                this.accType = '~';
             }
         }
     }
