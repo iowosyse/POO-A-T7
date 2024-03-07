@@ -30,6 +30,7 @@ public class Main {
                     switch (opt) {
                         case 1 -> {//solo crea cliente
                             test = AuxiliarMethods.createCLient();
+                            ClientRepositories.clients.add(test);
                         }
                         case 2 -> { //crea cliente y una cuenta de banco
                             test = AuxiliarMethods.createCLient();
