@@ -43,6 +43,8 @@ public class Client {
         for (BankAccount toShow : accounts) {
             System.out.printf("| %-3s | %-4s | %-6s | %-12s |%n", i, toShow.getAccType(), toShow.isValidAcc(), toShow.getBalance());
             System.out.println("--------------------");
+
+            i ++;
         }
     }
 }

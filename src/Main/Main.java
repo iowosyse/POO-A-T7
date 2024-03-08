@@ -2,15 +2,15 @@ package Main;
 
 import java.util.*;
 import Repositories.ClientRepositories;
-import Auxiliares.AuxiliarMethods;
+import Auxiliares.UtilityMethods;
 
 public class Main {
     static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
         int opt = -1, aux;
-        Client test;
-        BankAccount ciber;
+        Client testClient;
+        BankAccount testAccount;
 
         while (opt != 0) {
             System.out.println("1. Register.");
@@ -29,36 +29,37 @@ public class Main {
                     sc.nextLine();
                     switch (opt) {
                         case 1 -> {//solo crea cliente
-                            test = AuxiliarMethods.createCLient();
-                            ClientRepositories.clients.add(test);
+                            testClient = UtilityMethods.createCLient();
                         }
                         case 2 -> { //crea cliente y una cuenta de banco
-                            test = AuxiliarMethods.createCLient();
-                            ciber = AuxiliarMethods.createAccount();
-                            test.getAccounts().add(ciber);
+                            testClient = UtilityMethods.createCLient();
+                            testAccount = UtilityMethods.createAccount();
+                            testClient.getAccounts().add(testAccount);
                         }
                         case 3 -> { //crea cliente y cuenta y da opcion a hacer el primer deposito
-                            test = AuxiliarMethods.createCLient();
-                            ciber = AuxiliarMethods.createAccount();
+                            testClient = UtilityMethods.createCLient();
+                            testAccount = UtilityMethods.createAccount();
+                            testClient.getAccounts().add(testAccount);
 
-                            if (ciber.isValidAcc()) {
-                                test.getAccounts().add(ciber);
-
+                            if (testAccount.isValidAcc()) {
                                 System.out.print("Initial balance: $");
-                                test.showBalance(0);
+                                testClient.showBalance(0);
 
                                 System.out.print("How much do you want to deposit? ");
                                 aux = sc.nextInt();
                                 sc.nextLine();
-                                test.getAccounts().getFirst().deposit(aux); //no se si se pueda añadir directamente al ciber ;-;
+                                testClient.getAccounts().getFirst().deposit(aux); //no se si se pueda añadir directamente al testAccount ;-;
 
                                 System.out.print("New balance: $");
-                                test.showBalance(0);
+                                testClient.showBalance(0);
+
+                                testClient.getAccounts().removeLast(); /*por algun motivo mete dos cuentas iguales, como si fuera el
+                            mismo objeto duplucado, asi seria la solucion*/
                             } else {
-                                test.getInvalidAccs().add(ciber);
+                                testClient.getInvalidAccs().add(testAccount);
                             }
 
-                            test.getAccounts().add(ciber);
+                            testClient.getAccounts().add(testAccount);
                         }
                         case 4 -> { //muestra los clientes que ya existen
                             int i = 1;
@@ -76,7 +77,7 @@ public class Main {
                     }
                 } case 2 -> { //para iniciar sesion y depositar y retirar libremente de tu cuenta
                     if (ClientRepositories.clients.isEmpty()) {
-                        System.out.println("Theres no clients to sign in to");
+                        System.out.println("Theres no clients to sign in to, please register");
                     } else {
                         int tuki;
                         Client theClient;
@@ -138,26 +139,18 @@ public class Main {
 
                     theAccount.withdraw(aux);
                 } case 3 -> {
-                    BankAccount toChange;
+                    System.out.println("1. Create account\n2. Activate existing account\n0. Go back...");
+                    System.out.print(">> ");
+                    auxx = sc.nextInt();
+                    sc.nextLine();
 
-                    if (theCLient.getInvalidAccs().isEmpty()) {
-                        System.out.println("Theres no accounts to manage.");
-                    } else {
-                        AuxiliarMethods.showInvalidAccs(theCLient);
-                        System.out.print("What account do you want to manage? ");
-                        auxx = sc.nextInt();
-                        sc.nextLine();
-
-                        toChange = theCLient.getInvalidAccs().get(auxx - 1);
-
-                        System.out.print("Change the account type: ");
-                        char type = sc.nextLine().charAt(0);
-                        toChange.setAccType(type);
-
-                        if (type == 'a' || type == 'b' || type == 'c') {
-                            toChange.setValidAcc(true);
-                            theCLient.getInvalidAccs().remove(toChange);
-                        }
+                    switch (auxx) {
+                        case 1 -> {
+                            BankAccount newAcc = UtilityMethods.createAccount();
+                            theCLient.getAccounts().add(newAcc);
+                        } case 2 -> UtilityMethods.changeAccType(theCLient);
+                        case 0 -> System.out.println("Going back...");
+                        default -> System.out.println("Not an option.");
                     }
                 } case 0 -> System.out.println("Going back...");
                 default -> System.out.println("Not an option.");

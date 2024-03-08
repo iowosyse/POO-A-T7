@@ -5,7 +5,7 @@ import Main.Client;
 import Repositories.ClientRepositories;
 import java.util.*;
 
-public class AuxiliarMethods {
+public class UtilityMethods {
     static Scanner sc = new Scanner(System.in);
     static String aux;
 
@@ -50,6 +50,31 @@ public class AuxiliarMethods {
             if (!toShow.isValidAcc()) {
                 System.out.printf("| %-3s | %-4s | %-6s |%n", i, toShow.getAccType(), toShow.isValidAcc());
                 System.out.println("--------------------");
+            }
+        }
+    }
+
+    public static void changeAccType(Client theCLient) {
+        BankAccount toChange;
+        int auxx;
+
+        if (theCLient.getInvalidAccs().isEmpty()) {
+            System.out.println("Theres no accounts to change.");
+        } else {
+            UtilityMethods.showInvalidAccs(theCLient);
+            System.out.print("What account do you want to change? ");
+            auxx = sc.nextInt();
+            sc.nextLine();
+
+            toChange = theCLient.getInvalidAccs().get(auxx - 1);
+
+            System.out.print("Change the account type: ");
+            char type = sc.nextLine().charAt(0);
+            toChange.setAccType(type);
+
+            if (type == 'a' || type == 'b' || type == 'c') {
+                toChange.setValidAcc(true);
+                theCLient.getInvalidAccs().remove(toChange);
             }
         }
     }
