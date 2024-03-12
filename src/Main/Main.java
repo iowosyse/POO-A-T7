@@ -12,6 +12,8 @@ public class Main {
         Client testClient;
         BankAccount testAccount;
 
+        //CU CU PUMASS
+
         while (opt != 0) {
             System.out.println("1. Register.");
             System.out.println("2. Log in.");
