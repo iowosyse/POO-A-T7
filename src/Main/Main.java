@@ -13,6 +13,7 @@ public class Main {
         BankAccount testAccount;
 
         //CU CU PUMASS
+        //TEC TEC PONYS
 
         while (opt != 0) {
             System.out.println("1. Register.");
