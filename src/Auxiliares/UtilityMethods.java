@@ -2,7 +2,7 @@ package Auxiliares;
 
 import Main.BankAccount;
 import Main.Client;
-import Repositories.ClientRepositories;
+
 import java.util.*;
 
 public class UtilityMethods {
@@ -50,6 +50,7 @@ public class UtilityMethods {
             if (!toShow.isValidAcc()) {
                 System.out.printf("| %-3s | %-4s | %-6s |%n", i, toShow.getAccType(), toShow.isValidAcc());
                 System.out.println("--------------------");
+                i ++;
             }
         }
     }

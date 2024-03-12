@@ -1,4 +1,4 @@
-package Repositories;
+package Auxiliares;
 
 import Main.Client;
 
@@ -14,6 +14,8 @@ public class ClientRepositories {
         for (Client pinga : clients) {
             System.out.printf("| %-3s | %-15s |%n", i, pinga.getName() + " " + pinga.getLastName());
             System.out.println("---------------------------------------------");
+
+            i ++;
         }
     }
 }

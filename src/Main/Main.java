@@ -1,7 +1,7 @@
 package Main;
 
 import java.util.*;
-import Repositories.ClientRepositories;
+import Auxiliares.ClientRepositories;
 import Auxiliares.UtilityMethods;
 
 public class Main {
@@ -11,9 +11,6 @@ public class Main {
         int opt = -1, aux;
         Client testClient;
         BankAccount testAccount;
-
-        //CU CU PUMASS
-        //TEC TEC PONYS
 
         while (opt != 0) {
             System.out.println("1. Register.");
@@ -38,6 +35,9 @@ public class Main {
                             testClient = UtilityMethods.createCLient();
                             testAccount = UtilityMethods.createAccount();
                             testClient.getAccounts().add(testAccount);
+
+                            if (!testAccount.isValidAcc())
+                                testClient.getInvalidAccs().add(testAccount);
                         }
                         case 3 -> { //crea cliente y cuenta y da opcion a hacer el primer deposito
                             testClient = UtilityMethods.createCLient();
@@ -151,6 +151,9 @@ public class Main {
                         case 1 -> {
                             BankAccount newAcc = UtilityMethods.createAccount();
                             theCLient.getAccounts().add(newAcc);
+                            if (!newAcc.isValidAcc())
+                                theCLient.getInvalidAccs().add(newAcc);
+
                         } case 2 -> UtilityMethods.changeAccType(theCLient);
                         case 0 -> System.out.println("Going back...");
                         default -> System.out.println("Not an option.");
