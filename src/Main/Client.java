@@ -42,7 +42,7 @@ public class Client {
         System.out.printf("| %-3s | %-4s | %-6s | %-12s |%n", "No.", "Type", "Active", "Balance");
         for (BankAccount toShow : accounts) {
             System.out.printf("| %-3s | %-4s | %-6s | %-12s |%n", i, toShow.getAccType(), toShow.isValidAcc(), toShow.getBalance());
-            System.out.println("--------------------");
+            System.out.println("---------------------------------------------");
 
             i ++;
         }

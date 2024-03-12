@@ -80,4 +80,19 @@ public class UtilityMethods {
         }
     }
 
+    public static void showEverything() {
+        if (!ClientRepositories.clients.isEmpty()) {
+            for (Client theClient : ClientRepositories.clients) {
+                if (!theClient.getAccounts().isEmpty()) {
+                    System.out.println("Accounts owned by " + theClient.getName() + " " + theClient.getLastName() + ": ");
+                    theClient.showAccounts();
+                } else
+                    System.out.println(theClient.getName() + " " + theClient.getLastName() + " has no accounts");
+            }
+        } else
+            System.out.println("There's no clients");
+
+        System.out.println();
+    }
+
 }

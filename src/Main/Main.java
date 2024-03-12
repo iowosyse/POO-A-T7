@@ -15,6 +15,7 @@ public class Main {
         while (opt != 0) {
             System.out.println("1. Register.");
             System.out.println("2. Log in.");
+            System.out.println("3. Show all client's info");
             System.out.println("0. Go back.");
             System.out.print(">> ");
             opt = sc.nextInt();
@@ -93,7 +94,8 @@ public class Main {
 
                         byClient(theClient);
                     }
-                } case 0 -> System.out.println("Going back...");
+                } case 3 -> UtilityMethods.showEverything();
+                case 0 -> System.out.println("Going back...");
                 default -> System.out.println("Not an option");
             }
         }
